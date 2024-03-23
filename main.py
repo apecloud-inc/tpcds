@@ -34,7 +34,7 @@ def TPCDS_Cleanup(custor):
 def TPCDS_Prepare(custor, args):
     print("-------------- TPCDS_Prepare --------------")
 
-    # Gen_DATA(args.scale)
+    Gen_DATA(args.scale)
 
     if args.driver == 'mysql':
         Gen_Query_MySQL(args.scale)
@@ -79,7 +79,7 @@ def TPCDS_Run(custor, args):
             for item in sqls:
                 if item.strip() == '':
                     continue
-                custor.execute('EXPLAIN ' + item)
+                custor.execute(item)
             t2 = time.time()
             cost_time = t2 - t1
         print("query " + str(i+1) + " rows: " + str(len(custor.fetchall())))
