@@ -69,7 +69,7 @@ def TPCDS_Run(custor, args):
     print("-------------- TPCDS_Run --------------")
     custor.connection.autocommit = False
 
-    for i in range(35, 99):
+    for i in range(0, 99):
         print("run query", i + 1)
         with open(f'./cqueries/query{i+1}.sql', 'r') as f:
             sql = f.read()
@@ -304,141 +304,187 @@ def pg_load_data(custor):
 
     # catalog_page.dat
     print("load catalog_page.dat")
+    t1 = time.time()
     with open('./data/catalog_page.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY catalog_page FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load catalog_page.dat success\n")
+    t2 = time.time()
+    print("load catalog_page.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # catalog_returns.dat
     print("load catalog_returns.dat")
+    t1 = time.time()
     with open('./data/catalog_returns.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY catalog_returns FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load catalog_returns.dat success\n")
+    t2 = time.time()
+    print("load catalog_returns.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # catalog_sales.dat
     print("load catalog_sales.dat")
+    t1 = time.time()
     with open('./data/catalog_sales.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY catalog_sales FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load catalog_sales.dat success\n")
+    t2 = time.time()
+    print("load catalog_sales.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # customer.dat
     print("load customer.dat")
+    t1 = time.time()
     with open('./data/customer.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY customer FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load customer.dat success\n")
+    t2 = time.time()
+    print("load customer.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # customer_address.dat
     print("load customer_address.dat")
+    t1 = time.time()
     with open('./data/customer_address.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY customer_address FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load customer_address.dat success\n")
+    t2 = time.time()
+    print("load customer_address.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # customer_demographics.dat
     print("load customer_demographics.dat")
+    t1 = time.time()
     with open('./data/customer_demographics.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY customer_demographics FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load customer_demographics.dat success\n")
+    t2 = time.time()
+    print("load customer_demographics.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # date_dim.dat
     print("load date_dim.dat")
+    t1 = time.time()
     with open('./data/date_dim.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY date_dim FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load date_dim.dat success\n")
+    t2 = time.time()
+    print("load date_dim.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # household_demographics.dat
     print("load household_demographics.dat")
+    t1 = time.time()
     with open('./data/household_demographics.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY household_demographics FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load household_demographics.dat success\n")
+    t2 = time.time()
+    print("load household_demographics.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # income_band.dat
     print("load income_band.dat")
+    t1 = time.time()
     with open('./data/income_band.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY income_band FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load income_band.dat success\n")
+    t2 = time.time()
+    print("load income_band.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # inventory.dat
     print("load inventory.dat")
+    t1 = time.time()
     with open('./data/inventory.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY inventory FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load inventory.dat success\n")
+    t2 = time.time()
+    print("load inventory.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # item.dat
     print("load item.dat")
+    t1 = time.time()
     with open('./data/item.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY item FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load item.dat success\n")
+    t2 = time.time()
+    print("load item.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
     # promotion.dat
     print("load promotion.dat")
+    t1 = time.time()
     with open('./data/promotion.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY promotion FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load promotion.dat success\n")
+    t2 = time.time()
+    print("load promotion.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # reason.dat
     print("load reason.dat")
+    t1 = time.time()
     with open('./data/reason.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY reason FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load reason.dat success\n")
+    t2 = time.time()
+    print("load reason.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # ship_mode.dat
     print("load ship_mode.dat")
+    t1 = time.time()
     with open('./data/ship_mode.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY ship_mode FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load ship_mode.dat success\n")
+    t2 = time.time()
+    print("load ship_mode.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # store.dat
     print("load store.dat")
+    t1 = time.time()
     with open('./data/store.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY store FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load store.dat success\n")
+    t2 = time.time()
+    print("load store.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # store_returns.dat
     print("load store_returns.dat")
+    t1 = time.time()
     with open('./data/store_returns.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY store_returns FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load store_returns.dat success\n")
+    t2 = time.time()
+    print("load store_returns.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # store_sales.dat
     print("load store_sales.dat")
+    t1 = time.time()
     with open('./data/store_sales.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY store_sales FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load store_sales.dat success\n")
+    t2 = time.time()
+    print("load store_sales.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # time_dim.dat
     print("load time_dim.dat")
+    t1 = time.time()
     with open('./data/time_dim.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY time_dim FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load time_dim.dat success\n")
+    t2 = time.time()
+    print("load time_dim.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # warehouse.dat
     print("load warehouse.dat")
+    t1 = time.time()
     with open('./data/warehouse.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY warehouse FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load warehouse.dat success\n")
+    t2 = time.time()
+    print("load warehouse.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # web_page.dat
     print("load web_page.dat")
+    t1 = time.time()
     with open('./data/web_page.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY web_page FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load web_page.dat success\n")
+    t2 = time.time()
+    print("load web_page.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # web_returns.dat
     print("load web_returns.dat")
+    t1 = time.time()
     with open('./data/web_returns.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY web_returns FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load web_returns.dat success\n")
+    t2 = time.time()
+    print("load web_returns.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # web_sales.dat
     print("load web_sales.dat")
+    t1 = time.time()
     with open('./data/web_sales.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY web_sales FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load web_sales.dat success\n")
+    t2 = time.time()
+    print("load web_sales.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
     
     # web_site.dat
     print("load web_site.dat")
+    t1 = time.time()
     with open('./data/web_site.dat', encoding='latin-1') as f:
         custor.copy_expert("COPY web_site FROM STDIN WITH CSV DELIMITER '|' NULL AS ''", f)
-    print("load web_site.dat success\n")
+    t2 = time.time()
+    print("load web_site.dat success, cost " + format(t2 - t1, '.3f') + " seconds\n")
 
 
 def read_sql_file(file_path : str) -> list:
