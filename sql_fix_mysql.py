@@ -27,7 +27,7 @@ def replace_full_outer_join(sql):
     return re.sub(r'\bFULL OUTER JOIN\s*(.*?)\s*ON\s*\((.*?)\)', r'(left join \1 on (\2) union right join \1 on (\2))', sql, flags=re.IGNORECASE)
 
 def replace_days(sql):
-    return re.sub(r"\+\s*(\d+)\s*days", r"+ INTERVAL \1 DAY", sql)
+    return re.sub(r"[+-]\s*(\d+)\s*days", r"+ INTERVAL \1 DAY", sql)
 
 for each_text in text_split:
     query_count += 1
