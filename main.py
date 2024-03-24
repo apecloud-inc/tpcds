@@ -17,6 +17,7 @@ parser.add_argument('--port', type=int, default=3306, help='database port')
 parser.add_argument('--user', type=str, default='root', help='database user')
 parser.add_argument('--password', type=str, default='root', help='database password')
 parser.add_argument('--database', type=str, default='tpcds', help='database name')
+parser.add_argument('--usekey', type=bool, default=False, help='create pk and fk or not, it will cost extra time to create pk and fk')
 parser.add_argument('--step', type=str, default='all', help='step to run, support cleanup, prepare, run, all')
 
 def TPCDS_Cleanup(custor):
@@ -34,7 +35,7 @@ def TPCDS_Cleanup(custor):
 def TPCDS_Prepare(custor, args):
     print("-------------- TPCDS_Prepare --------------")
 
-    Gen_DATA(args.scale)
+    Gen_DATA(args)
 
     if args.driver == 'mysql':
         Gen_Query_MySQL(args.scale)
@@ -55,12 +56,13 @@ def TPCDS_Prepare(custor, args):
     elif args.driver == 'postgres':
         pg_load_data(custor)
 
-    # print("run tpcds create constraint and index")
-    # for i, sql in enumerate(read_sql_file(create_table_ri_path)):
-    #     print("run create constraint and index", i)
-    #     print(sql.strip())
-    #     custor.execute(sql)
-    #     print("create constraint and index", i, "success\n")
+    if args.usekey:
+        print("run tpcds create constraint and index")
+        for i, sql in enumerate(read_sql_file(create_table_ri_path)):
+            print("run create constraint and index", i)
+            print(sql.strip())
+            custor.execute(sql)
+            print("create constraint and index", i, "success\n")
     
     custor.connection.commit()
 
@@ -86,15 +88,19 @@ def TPCDS_Run(custor, args):
         print("query " + str(i+1) + " run cost " + format(cost_time, '.3f') + " seconds")
 
 
-def Gen_DATA(scale_factor : int):
+def Gen_DATA(args):
     print("-------------- Gen_DATA --------------")
     if not os.path.exists('./data'):
         os.makedirs('./data')
 
-    cmd = f'./tools/Linux/dsdgen -SCALE {scale_factor} -TERMINATE N -DIR ./data -FORCE'
+    cmd = f'./tools/Linux/dsdgen -SCALE {args.scale} -TERMINATE N -DIR ./data -FORCE'
 
     # run dsdgen
     os.system(cmd)
+
+    if args.driver == 'mysql':
+        cmd = "sh data_process_mysql.sh"
+        os.system(cmd)
 
 
 def Gen_Query_MySQL(scale_factor : int):

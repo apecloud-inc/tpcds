@@ -26,12 +26,15 @@ def replace_full_outer_join(sql):
     # find full outer join field
     return re.sub(r'\bFULL OUTER JOIN\s*(.*?)\s*ON\s*\((.*?)\)', r'(left join \1 on (\2) union right join \1 on (\2))', sql, flags=re.IGNORECASE)
 
+def replace_days(sql):
+    return re.sub(r"\+\s*(\d+)\s*days", r"+ INTERVAL \1 DAY", sql)
+
 for each_text in text_split:
     query_count += 1
     if query_count == 30:
         each_text = each_text.replace('c_last_review_date_sk', 'c_last_review_date')
     elif query_count in qdays_list:
-        each_text = each_text.replace('days', '')
+        each_text = replace_days(each_text)
     elif query_count in loch_list:
         each_text = each_text.replace('select', 'select * from (select ', 1)
         each_text = ') as sub\n order by'.join(each_text.rsplit('order by', 1))
