@@ -14,6 +14,11 @@ on:
 env:
   RELEASE_VERSION: ${{ github.ref_name }}
 
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
 run-name: release image ${{ inputs.release_version }} ${{ github.ref_name }}
 
 jobs:
