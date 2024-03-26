@@ -10,12 +10,12 @@ $ cd tpcds
 $ # run the benchmark on Mysql
 $ python3 -u main.py --scale 1 --driver mysql --user xxx --password xxx --database test
 $ # run the benchmark on Postgres
-$ python3 -u main.py --scale 1 --driver postgres --user xxx --password xxx --database test
+$ python3 -u main.py --scale 1 --driver postgresql --user xxx --password xxx --database test
 ```
 
 ## Parameters
 - `scale`: the scale factor of the benchmark, default is 1
-- `driver`: the database driver, only support `mysql` and `postgres`
+- `driver`: the database driver, only support `mysql` and `postgresql`
 - `user`: the database user
 - `password`: the database password
 - `database`: the database name

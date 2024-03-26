@@ -11,7 +11,7 @@ load_data_path = './sql/load/load_pg.sql'
 
 parser = argparse.ArgumentParser(description='TPC-DS Benchmark')
 parser.add_argument('--scale', type=int, default=1, help='volume of data to generate in GB')
-parser.add_argument('--driver', type=str, default='mysql', help='database driver to use, support mysql, postgres')
+parser.add_argument('--driver', type=str, default='mysql', help='database driver to use, support mysql, postgresql')
 parser.add_argument('--host', type=str, default='localhost', help='database host')
 parser.add_argument('--port', type=int, default=3306, help='database port')
 parser.add_argument('--user', type=str, default='root', help='database user')
@@ -48,10 +48,10 @@ def TPCDS_Prepare(custor, args):
     print("run tpcds load data")
     if args.driver == 'mysql':
         mysql_load_data(custor)
-    elif args.driver == 'postgres':
+    elif args.driver == 'postgresql':
         pg_load_data(custor)
 
-    if args.usekey:
+    if args.usekey == True:
         print("run tpcds create constraint and index")
         for i, sql in enumerate(read_sql_file(create_table_ri_path)):
             print("run create constraint and index", i)
@@ -68,7 +68,7 @@ def TPCDS_Run(custor, args):
 
     if args.driver == 'mysql':
         Gen_Query_MySQL(args.scale)
-    elif args.driver == 'postgres':
+    elif args.driver == 'postgresql':
         Gen_Query_PG(args.scale)
 
     for i in range(0, 99):
@@ -527,7 +527,7 @@ def main():
             local_infile=True
         )
         custor = conn.cursor()
-    elif args.driver == 'postgres':
+    elif args.driver == 'postgresql':
         conn = psycopg2.connect(
             host=args.host,
             port=args.port,
@@ -536,6 +536,10 @@ def main():
             password=args.password
         )
         custor = conn.cursor()
+    else:
+        # throw error and exit
+        print("Unsupported database driver")
+        exit(1)
 
     if args.step == 'cleanup' or args.step == 'all':
         TPCDS_Cleanup(custor)
