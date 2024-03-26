@@ -1,4 +1,4 @@
-IMG ?= tpcds
+IMG ?= guang999/tpcds
 VERSION ?= latest
 CONTAINER_TOOL ?= docker
 
@@ -29,3 +29,7 @@ docker-buildx:
 	- $(CONTAINER_TOOL) buildx build --push --platform=$(PLATFORMS) --tag ${IMG}:${VERSION} -f Dockerfile.cross .
 	- $(CONTAINER_TOOL) buildx rm project-v3-builder
 	rm Dockerfile.cross
+
+.PHONY: compile-tools
+compile-tools:
+	unzip -q tools.zip && cd tools && make && chmod +x dsdgen && chmod +x dsqgen && mv dsdgen dsqgen ./Linux

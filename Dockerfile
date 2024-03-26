@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 Run apt -y update
 
 # Install python
-RUN apt -y install python3
+RUN apt -y install python3 make gcc build-essential unzip flex bison
 
 # Install pip
 RUN apt -y install python3-pip
@@ -20,3 +20,6 @@ COPY . /app
 
 # Set the working directory to /app
 WORKDIR /app
+
+# make tools executable
+RUN make compile-tools
