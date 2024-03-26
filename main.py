@@ -37,11 +37,6 @@ def TPCDS_Prepare(custor, args):
 
     Gen_DATA(args)
 
-    if args.driver == 'mysql':
-        Gen_Query_MySQL(args.scale)
-    elif args.driver == 'postgres':
-        Gen_Query_PG(args.scale)
-
     print("run tpcds create table")
     sqls = read_sql_file(create_table_path)
     for i, sql in enumerate(sqls):
@@ -70,6 +65,11 @@ def TPCDS_Prepare(custor, args):
 def TPCDS_Run(custor, args):
     print("-------------- TPCDS_Run --------------")
     custor.connection.autocommit = False
+
+    if args.driver == 'mysql':
+        Gen_Query_MySQL(args.scale)
+    elif args.driver == 'postgres':
+        Gen_Query_PG(args.scale)
 
     for i in range(0, 99):
         print("run query", i + 1)
