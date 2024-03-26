@@ -3,6 +3,14 @@ import psycopg2
 import os
 import time
 import argparse
+import platform
+
+dsdgen_path = './tools/Linux/dsdgen'
+dsqgen_path = './tools/Linux/dsqgen'
+
+if platform.system() == 'Darwin':
+    dsdgen_path = './tools/Darwin/dsdgen'
+    dsqgen_path = './tools/Darwin/dsqgen'
 
 drop_sql_path = './sql/drop/drop.sql'
 create_table_path = './sql/create/create_table.sql'
@@ -93,7 +101,7 @@ def Gen_DATA(args):
     if not os.path.exists('./data'):
         os.makedirs('./data')
 
-    cmd = f'./tools/Linux/dsdgen -SCALE {args.scale} -TERMINATE N -DIR ./data -FORCE'
+    cmd = f'{dsdgen_path} -SCALE {args.scale} -TERMINATE N -DIR ./data -FORCE'
 
     # run dsdgen
     os.system(cmd)
@@ -105,7 +113,7 @@ def Gen_DATA(args):
 
 def Gen_Query_MySQL(scale_factor : int):
     print("-------------- Gen_Query_MySQL --------------")
-    cmd = f'./tools/Linux/dsqgen -DIRECTORY ./query_templates -INPUT ./query_templates/templates_mysql.lst -VERBOSE Y -QUALIFY Y -SCALE {scale_factor} -DIALECT netezza -OUTPUT_DIR .'
+    cmd = f'{dsqgen_path} -DIRECTORY ./query_templates -INPUT ./query_templates/templates_mysql.lst -VERBOSE Y -QUALIFY Y -SCALE {scale_factor} -DIALECT netezza -OUTPUT_DIR .'
 
     # run dsqgen
     os.system(cmd)
@@ -115,7 +123,7 @@ def Gen_Query_MySQL(scale_factor : int):
 
 def Gen_Query_PG(scale_factor : int):
     print("-------------- Gen_Query_PG --------------")
-    cmd = f'./tools/Linux/dsqgen -DIRECTORY ./query_templates -INPUT ./query_templates/templates.lst -VERBOSE Y -QUALIFY Y -SCALE {scale_factor} -DIALECT netezza -OUTPUT_DIR .'
+    cmd = f'{dsqgen_path} -DIRECTORY ./query_templates -INPUT ./query_templates/templates.lst -VERBOSE Y -QUALIFY Y -SCALE {scale_factor} -DIALECT netezza -OUTPUT_DIR .'
 
     # run dsqgen
     os.system(cmd)
